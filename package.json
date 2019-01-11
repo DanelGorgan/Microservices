@@ -1,0 +1,16 @@
+{
+  "name": "microserviciu",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "micro index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "micro": "^9.3.3",
+    "xlsx": "^0.14.1"
+  }
+}
