@@ -1,0 +1,7 @@
+users-service:
+  container_name: users-service
+  build: ../../services/users/
+  ports:
+  - '3000:3000' # expose ports - HOST:CONTAINER
+  environment:
+  - NODE_ENV=development
