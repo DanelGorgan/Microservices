@@ -5,7 +5,9 @@ module.exports = (req, res) => {
     let XLSX = require('xlsx');
     let workbook = XLSX.readFile('./test.xls');
     let sheet_name_list = workbook.SheetNames;
-    let resp = [];
+    let resp = {};
+    let ok = 0;
+    let receivedEmail = req.url.split('=')[1];
     sheet_name_list.forEach(function (y) {
         let worksheet = workbook.Sheets[y];
         let headers = {};
@@ -23,20 +25,22 @@ module.exports = (req, res) => {
             let col = z.substring(0, tt);
             let row = parseInt(z.substring(tt));
             let value = worksheet[z].v;
-
             if (row === 1 && value) {
                 headers[col] = value;
                 continue;
             }
-
             if (!data[row]) data[row] = {};
             data[row][headers[col]] = value;
         }
-
         data.shift();
         data.shift();
-        resp.push(data)
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].Email === receivedEmail) {
+                resp.response = data[i];
+                break;
+            }
+        }
     });
 
-    return {msg: resp}
+    return resp
 };
