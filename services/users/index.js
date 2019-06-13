@@ -2,12 +2,17 @@ let fs = require('fs');
 let xlsx = require('xlsx');
 
 module.exports = (req, res) => {
+    let urlSplit = req.url.split('=');
+    //let receivedEmail = urlSplit[2].substring(0, urlSplit[2].length - 1);
+    let receivedEmail = urlSplit[2];
+    let type = urlSplit[1].split('&')[0];
+
     let XLSX = require('xlsx');
-    let workbook = XLSX.readFile('./test.xls');
+    let workbook = XLSX.readFile(`./${type}.xlsx`);
     let sheet_name_list = workbook.SheetNames;
     let resp = {};
     let ok = 0;
-    let receivedEmail = req.url.split('=')[1];
+
     sheet_name_list.forEach(function (y) {
         let worksheet = workbook.Sheets[y];
         let headers = {};
