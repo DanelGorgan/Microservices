@@ -1,17 +1,12 @@
-let fs = require('fs');
-let xlsx = require('xlsx');
-
 module.exports = (req, res) => {
     let urlSplit = req.url.split('=');
-    //let receivedEmail = urlSplit[2].substring(0, urlSplit[2].length - 1);
-    let receivedEmail = urlSplit[2];
+    let receivedEmail = urlSplit[2].split("%20").join(" ");
     let type = urlSplit[1].split('&')[0];
 
     let XLSX = require('xlsx');
     let workbook = XLSX.readFile(`./${type}.xlsx`);
     let sheet_name_list = workbook.SheetNames;
     let resp = {};
-    let ok = 0;
 
     sheet_name_list.forEach(function (y) {
         let worksheet = workbook.Sheets[y];
@@ -39,13 +34,21 @@ module.exports = (req, res) => {
         }
         data.shift();
         data.shift();
-        for (let i = 0; i < data.length; i++) {
-            if (data[i].Email === receivedEmail) {
-                resp.response = data[i];
-                break;
+        if (type === 'course') {
+            for (let i = 0; i < data.length; i++) {
+                if (data[i].Title === receivedEmail) {
+                    resp.response = data[i];
+                    break;
+                }
+            }
+        } else {
+            for (let i = 0; i < data.length; i++) {
+                if (data[i].Email === receivedEmail) {
+                    resp.response = data[i];
+                    break;
+                }
             }
         }
     });
-
     return resp
 };
