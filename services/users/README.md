@@ -34,7 +34,7 @@ To run the container, use:
 ```
 docker-compose run users-service
 ```
-It will listen to localhost:3000?email=example@example.com;
+It will listen to localhost:3000?type=type&email=example@example.com;
 
 Other useful command for Docker:
 - docker ps -> to see the active containers
